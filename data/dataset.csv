@@ -1,0 +1,51 @@
+
+﻿prompt,completion
+throw an error in non production environments,"if (process.env.NODE_ENV !== 'production') {
+    throw new Error(`take(patternOrChannel): argument ${patternOrChannel} is not valid channel or a valid pattern`)
+  }"
+"in non prod, check to see if the argument is a fork","if (process.env.NODE_ENV !== 'production') {
+    check(eff, isForkEffect, 'detach(eff): argument must be a fork effect')
+  }"
+non prod check if pattern or channel is undefined,"if (process.env.NODE_ENV !== 'production' && arguments.length) {
+    check(arguments[0], is.notUndef, 'take(patternOrChannel): patternOrChannel is undefined')
+  }"
+"check that channel argument is set and is valid, check that action is defined and is valid","if (process.env.NODE_ENV !== 'production') {
+    if (arguments.length > 1) {
+      check(channel, is.notUndef, 'put(channel, action): argument channel is undefined')
+      check(channel, is.channel, `put(channel, action): argument ${channel} is not a valid channel`)
+      check(action, is.notUndef, 'put(channel, action): argument action is undefined')
+    } else {
+      check(channel, is.notUndef, 'put(action): argument action is undefined')
+    }
+  }"
+"in staging environment, check that argument is a fork effect","if (process.env.NODE_ENV !== 'production') {
+    check(eff, isForkEffect, 'detach(eff): argument must be a fork effect')
+  }"
+"in non prod, with arguments, check that pattern or channel is defined","if (process.env.NODE_ENV !== 'production' && arguments.length) {
+    check(arguments[0], is.notUndef, 'take(patternOrChannel): patternOrChannel is undefined')
+  }"
+"in non prod, with 2 args, channel and action both are valid, with one arg, action is valid","if (process.env.NODE_ENV !== 'production') {
+    if (arguments.length > 1) {
+      check(channel, is.notUndef, 'put(channel, action): argument channel is undefined')
+      check(channel, is.channel, `put(channel, action): argument ${channel} is not a valid channel`)
+      check(action, is.notUndef, 'put(channel, action): argument action is undefined')
+    } else {
+      check(channel, is.notUndef, 'put(action): argument action is undefined')
+    }
+  }"
+"in test environment, check that argument is a fork","if (process.env.NODE_ENV !== 'production') {
+    check(eff, isForkEffect, 'detach(eff): argument must be a fork effect')
+  }"
+"in local development environment, check that argument is a fork effect","if (process.env.NODE_ENV !== 'production') {
+    check(eff, isForkEffect, 'detach(eff): argument must be a fork effect')
+  }"
+"when there's one arg, check that action is defined and valid","if (process.env.NODE_ENV !== 'production') {
+    if (arguments.length > 1) {
+      check(channel, is.notUndef, 'put(channel, action): argument channel is undefined')
+      check(channel, is.channel, `put(channel, action): argument ${channel} is not a valid channel`)
+      check(action, is.notUndef, 'put(channel, action): argument action is undefined')
+    } else {
+      check(channel, is.notUndef, 'put(action): argument action is undefined')
+    }
+  }"
+"when there are two args, check that channel and action arguments are defined and valid, channel is first argument, action is second argument","if (process.env.NODE_ENV !== 'production') {

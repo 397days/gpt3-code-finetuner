@@ -4,4 +4,4 @@ VOLUME [ "/data" ]
 WORKDIR /app
 COPY ./index.js ./package.json /app/
 RUN sudo npm install
-CMD [ "node", "index.js", "parse", "/d
+CMD [ "node", "index.js", "parse", "/data/input" ]
