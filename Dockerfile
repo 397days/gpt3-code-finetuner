@@ -3,4 +3,5 @@ ENV DOCKER_RUNNING=true
 VOLUME [ "/data" ]
 WORKDIR /app
 COPY ./index.js ./package.json /app/
-RU
+RUN sudo npm install
+CMD [ "node", "index.js", "parse", "/d
