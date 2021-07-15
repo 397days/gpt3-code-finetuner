@@ -49,3 +49,74 @@ non prod check if pattern or channel is undefined,"if (process.env.NODE_ENV !== 
     }
   }"
 "when there are two args, check that channel and action arguments are defined and valid, channel is first argument, action is second argument","if (process.env.NODE_ENV !== 'production') {
+    if (arguments.length > 1) {
+      check(channel, is.notUndef, 'put(channel, action): argument channel is undefined')
+      check(channel, is.channel, `put(channel, action): argument ${channel} is not a valid channel`)
+      check(action, is.notUndef, 'put(channel, action): argument action is undefined')
+    } else {
+      check(channel, is.notUndef, 'put(action): argument action is undefined')
+    }
+  }"
+"define function for apply effect, in non prod validate that the function descriptor is apply, return result of make effect","export function apply(context, fn, args = []) {
+  const fnDescriptor = [context, fn]
+
+  if (process.env.NODE_ENV !== 'production') {
+    validateFnDescriptor('apply', fnDescriptor)
+  }
+
+  return makeEffect(effectTypes.CALL, getFnCallDescriptor([context, fn], args))
+}"
+"define function for fork effect, in non prod validate that the function descriptor is fork, check that argument is not an effect, and return result of make effect","export function fork(fnDescriptor, ...args) {
+  if (process.env.NODE_ENV !== 'production') {
+    validateFnDescriptor('fork', fnDescriptor)
+
+    check(fnDescriptor, (arg) => !is.effect(arg), 'fork: argument must not be an effect')
+  }
+  return makeEffect(effectTypes.FORK, getFnCallDescriptor(fnDescriptor, args))
+}"
+"finite state machine iterator function that takes a start state and a name and moves to the next state using a state updater function, returning an iterator","export default function fsmIterator(fsm, startState, name) {
+  let stateUpdater,
+    errorState,
+    effect,
+    nextState = startState
+
+  function next(arg, error) {
+    if (nextState === qEnd) {
+      return done(arg)
+    }
+    if (error && !errorState) {
+      nextState = qEnd
+      throw error
+    } else {
+      stateUpdater && stateUpdater(arg)
+      const currentState = error ? fsm[errorState](error) : fsm[nextState]()
+      ;({ nextState, effect, stateUpdater, errorState } = currentState)
+      return nextState === qEnd ? done(arg) : effect
+    }
+  }
+
+  return makeIterator(next, (error) => next(null, error), name)
+}"
+"if there's an error and we're not already in an error state, go to the end state and throw the error","    if (error && !errorState) {
+      nextState = qEnd
+      throw error
+    }"
+function that returns the name of a pattern or channel,"export function safeName(patternOrChannel) {
+  if (is.channel(patternOrChannel)) {
+    return 'channel'
+  }
+
+  if (is.stringableFunc(patternOrChannel)) {
+    return String(patternOrChannel)
+  }
+
+  if (is.func(patternOrChannel)) {
+    return patternOrChannel.name
+  }
+
+  return String(patternOrChannel)
+}"
+return the name of a pattern or channel,"if (is.func(patternOrChannel)) {
+    return patternOrChannel.name
+  }"
+debounce function for redux saga action,"export default function debounceHelper(delayLength, patternOrChannel, worker, ...args) {
