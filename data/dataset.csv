@@ -187,3 +187,63 @@ test empty array saga,"test('saga empty array', () => {
   let actual
   const middleware = sagaMiddleware()
   createStore(() => ({}), {}, applyMiddleware(middleware))
+
+  function* genFn() {
+    actual = yield io.all([])
+  }
+
+  const expected = []
+  const task = middleware.run(genFn)
+  return task.toPromise().then(() => {
+    // saga must fulfill empty parallel effects with an empty array
+    expect(actual).toEqual(expected)
+  })
+})"
+redux saga empty array,"function* genFn() {
+    actual = yield io.all([])
+  }"
+expect task to return empty array,"const expected = []
+  const task = middleware.run(genFn)
+  return task.toPromise().then(() => {
+    // saga must fulfill empty parallel effects with an empty array
+    expect(actual).toEqual(expected)
+  })"
+test error handling for parallel effect,"test('saga parallel effect: handling errors', () => {
+  let actual
+  const defs = arrayOfDeferred(2)
+  const middleware = sagaMiddleware()
+  createStore(() => ({}), {}, applyMiddleware(middleware))
+  Promise.resolve(1)
+    .then(() => defs[0].reject('error'))
+    .then(() => defs[1].resolve(1))
+
+  function* genFn() {
+    try {
+      actual = yield io.all([defs[0].promise, defs[1].promise])
+    } catch (err) {
+      actual = [err]
+    }
+  }
+
+  const task = middleware.run(genFn)
+  const expected = ['error']
+  return task.toPromise().then(() => {
+    // saga must catch the first error in parallel effects
+    expect(actual).toEqual(expected)
+  })
+})"
+"monitor saga, create redux saga middleware with redux store","const sagaMonitor = createSagaMonitor(ids, effects, actions)
+  const sagaMiddleware = createSagaMiddleware({ sagaMonitor })
+  const store = createStore(() => ({}), applyMiddleware(sagaMiddleware))"
+add monitoring to redux saga,"const sagaMonitor = createSagaMonitor(ids, effects, actions)
+  const sagaMiddleware = createSagaMiddleware({ sagaMonitor })
+  const store = createStore(() => ({}), applyMiddleware(sagaMiddleware))"
+monitor redux saga,"const sagaMonitor = createSagaMonitor(ids, effects, actions)
+  const sagaMiddleware = createSagaMiddleware({ sagaMonitor })
+  const store = createStore(() => ({}), applyMiddleware(sagaMiddleware))"
+watch for fetch products saga and trigger fetch products api call,"import { takeEvery } from 'redux-saga/effects'
+import Api from './path/to/api'
+
+function* watchFetchProducts() {
+  yield takeEvery('PRODUCTS_REQUESTED', fetchProducts)
+}
