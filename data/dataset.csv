@@ -247,3 +247,53 @@ import Api from './path/to/api'
 function* watchFetchProducts() {
   yield takeEvery('PRODUCTS_REQUESTED', fetchProducts)
 }
+
+function* fetchProducts() {
+  const products = yield Api.fetch('/products')
+  console.log(products)
+}"
+import take every,import { takeEvery } from 'redux-saga/effects'
+saga watch for fetch products,"function* watchFetchProducts() {
+  yield takeEvery('PRODUCTS_REQUESTED', fetchProducts)
+}"
+handle products requested and call fetch products,"yield takeEvery('PRODUCTS_REQUESTED', fetchProducts)"
+call fetch products on products requested action,"yield takeEvery('PRODUCTS_REQUESTED', fetchProducts)"
+generator function yielding api call to fetch products,"function* fetchProducts() {
+  const products = yield call(Api.fetch('/products'))
+  console.log(products)
+}"
+call api function,"const products = yield call(Api.fetch, '/products')"
+saga to call api function,"function* fetchProducts() {
+  const products = yield call(Api.fetch, '/products')
+}"
+read file saga,"import { cps } from 'redux-saga/effects'
+
+const content = yield cps(readFile, '/path/to/file')"
+call api saga,"function* fetchProducts() {
+  const products = yield call(Api.fetch, '/products')
+}"
+test read file saga,"import { cps } from 'redux-saga/effects'
+
+const iterator = fetchSaga()
+assert.deepEqual(iterator.next().value, cps(readFile, '/path/to/file') )"
+call api and dispatch action with results payload,"import { call, put } from 'redux-saga/effects'
+
+function* fetchProducts() {
+  const products = yield call(Api.fetch, '/products')
+  // create and yield a dispatch Effect
+  yield put({ type: 'PRODUCTS_RECEIVED', products })
+}"
+dispatch saga action with api response payload,"yield put({ type: 'PRODUCTS_RECEIVED', products })"
+test api call saga,"assert.deepEqual(
+  iterator.next().value,
+  call(Api.fetch, '/products'),
+  ""fetchProducts should yield an Effect call(Api.fetch, './products')""
+)"
+test saga dispatch,"assert.deepEqual(
+  iterator.next(products).value,
+  put({ type: 'PRODUCTS_RECEIVED', products }),
+  ""fetchProducts should yield an Effect put({ type: 'PRODUCTS_RECEIVED', products })""
+)"
+run only one task at a time,"import { takeLatest } from 'redux-saga/effects'
+
+function* watchFetchData() {
