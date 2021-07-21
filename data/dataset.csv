@@ -297,3 +297,63 @@ test saga dispatch,"assert.deepEqual(
 run only one task at a time,"import { takeLatest } from 'redux-saga/effects'
 
 function* watchFetchData() {
+  yield takeLatest('FETCH_REQUESTED', fetchData)
+}"
+run concurrent tasks,"import { takeEvery } from 'redux-saga/effects'
+
+function* watchFetchData() {
+  yield takeEvery('FETCH_REQUESTED', fetchData)
+}"
+run multiple parallel tasks,"import { takeEvery } from 'redux-saga/effects'
+
+// FETCH_USERS
+function* fetchUsers(action) { ... }
+
+// CREATE_USER
+function* createUser(action) { ... }
+
+// use them in parallel
+export default function* rootSaga() {
+  yield takeEvery('FETCH_USERS', fetchUsers)
+  yield takeEvery('CREATE_USER', createUser)
+}"
+"watch for FETCH USERS and call fetch users function, watch for CREATE USER and call create user function","export default function* rootSaga() {
+  yield takeEvery('FETCH_USERS', fetchUsers)
+  yield takeEvery('CREATE_USER', createUser)
+}"
+test error handling in fetch products dispatches products request failure,"assert.deepEqual(
+  iterator.throw(error).value,
+  put({ type: 'PRODUCTS_REQUEST_FAILED', error }),
+  ""fetchProducts should yield an Effect put({ type: 'PRODUCTS_REQUEST_FAILED', error })""
+)"
+call api and return error as part of dispatch payload,"import Api from './path/to/api'
+import { call, put } from 'redux-saga/effects'
+
+function fetchProductsApi() {
+  return Api.fetch('/products')
+    .then(response => ({ response }))
+    .catch(error => ({ error }))
+}
+
+function* fetchProducts() {
+  const { response, error } = yield call(fetchProductsApi)
+  if (response)
+    yield put({ type: 'PRODUCTS_RECEIVED', products: response })
+  else
+    yield put({ type: 'PRODUCTS_REQUEST_FAILED', error })
+}"
+call api function,"const { response, error } = yield call(fetchProductsApi)"
+"call api function, return response if ok","if (response)
+    yield put({ type: 'PRODUCTS_RECEIVED', products: response })"
+"call api function, return error in payload if there's an error","else
+    yield put({ type: 'PRODUCTS_REQUEST_FAILED', error })"
+"call api function, return response or error in payload","const { response, error } = yield call(fetchProductsApi)
+  if (response)
+    yield put({ type: 'PRODUCTS_RECEIVED', products: response })
+  else
+    yield put({ type: 'PRODUCTS_REQUEST_FAILED', error })"
+"call api function, return response or error in payload","function* fetchProducts() {
+  const { response, error } = yield call(fetchProductsApi)
+  if (response)
+    yield put({ type: 'PRODUCTS_RECEIVED', products: response })
+  else
