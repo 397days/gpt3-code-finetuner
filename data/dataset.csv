@@ -357,3 +357,71 @@ call api function,"const { response, error } = yield call(fetchProductsApi)"
   if (response)
     yield put({ type: 'PRODUCTS_RECEIVED', products: response })
   else
+    yield put({ type: 'PRODUCTS_REQUEST_FAILED', error })
+}"
+start a subtask in parallel,"function* fetchPosts() {
+  yield put(actions.requestPosts())
+  const products = yield call(fetchApi, '/products')
+  yield put(actions.receivePosts(products))
+}
+
+function* watchFetch() {
+  while (yield take('FETCH_POSTS')) {
+    yield call(fetchPosts) // waits for the fetchPosts task to terminate
+  }
+}"
+nested saga handling multiple tasks,"function* mainSaga(getState) {
+  const results = yield all([call(task1), call(task2)])
+  yield put(showResults(results))
+}"
+create new channel for tasks,"import { take, actionChannel, call } from 'redux-saga/effects'
+
+function* watchRequests() {
+  // 1- Create a channel for request actions
+  const requestChan = yield actionChannel('REQUEST')
+  while (true) {
+    // 2- take from the channel
+    const {payload} = yield take(requestChan)
+    // 3- Note that we're using a blocking call
+    yield call(handleRequest, payload)
+  }
+}"
+handle five latest tasks in channel,"import { buffers } from 'redux-saga'
+import { actionChannel } from 'redux-saga/effects'
+
+function* watchRequests() {
+  const requestChan = yield actionChannel('REQUEST', buffers.sliding(5))
+}"
+create api request channel handling five tasks,"import { buffers } from 'redux-saga'
+import { actionChannel } from 'redux-saga/effects'
+
+function* watchRequests() {
+  const requestChan = yield actionChannel('API_REQUEST', buffers.sliding(5))
+}"
+create api request channel,"import { buffers } from 'redux-saga'
+import { actionChannel } from 'redux-saga/effects'
+
+function* watchRequests() {
+  const requestChan = yield actionChannel('API_REQUEST', buffers.sliding(5))
+}"
+create channel for websocket handling pings and errors with a pong message,"import { take, put, call, apply, delay } from 'redux-saga/effects'
+import { eventChannel } from 'redux-saga'
+import { createWebSocketConnection } from './socketConnection'
+
+// this function creates an event channel from a given socket
+// Setup subscription to incoming `ping` events
+function createSocketChannel(socket) {
+  // `eventChannel` takes a subscriber function
+  // the subscriber function takes an `emit` argument to put messages onto the channel
+  return eventChannel(emit => {
+
+    const pingHandler = (event) => {
+      // puts event payload into the channel
+      // this allows a Saga to take this payload from the returned channel
+      emit(event.payload)
+    }
+
+    const errorHandler = (errorEvent) => {
+      // create an Error object and put it into the channel
+      emit(new Error(errorEvent.reason))
+    }
