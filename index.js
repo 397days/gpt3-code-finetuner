@@ -77,3 +77,57 @@ function parseSourcecode(sourceCodeFilePath) {
     if (typescript.isArrowFunction(node)) {
 
       // console.log(Object.keys(node));
+      const params = node.parameters.map(node => node.name.escapedText).join(", ");
+      if (node.parameters.length === 0) {
+        prompts.push("function");
+        prompts.push("function with no parameters");
+      } else if (node.parameters.length === 1) {
+        prompts.push(`function with ${params} parameter`);
+      } else {
+        prompts.push(`function with ${params} parameters`);
+      }
+    }
+
+    for (const prompt of prompts) {
+      // TODO: save this to a CSV file
+      console.log(`"${prompt}","${completion}"\n`);
+    }
+
+    typescript.forEachChild(node, parseNode);
+  }
+}
+
+/**
+ * Returns the completion generated from OpenAI GPT-3 using any model given the prompt.
+ * @param {string} model The fine tune id or the id of another model
+ * @param {string} prompt The prompt to generate the code completion for
+ * @returns 
+ */
+async function generateCode(model, prompt) {
+  return openai.createCompletion({ model, prompt });
+}
+
+debug("Fine Tuning GPT-3");
+yargs(hideBin(process.argv))
+  .command(
+    "list",
+    "list the fine tunes and their status",
+    {},
+    () => {
+      debug("Listing fine tunes");
+      listFineTunes();
+    }
+  )
+  .command(
+    "generate <model> <prompt>",
+    "Generates code using the fine-tuned model given a prompt",
+    {},
+    (argv) => {
+      debug("Generating code");
+      generateCode(argv.model, argv.prompt).then((completion) => {
+        console.log(completion.data.choices[0].text);
+      });
+    }
+  )
+  .command(
+    ["upload", "$0"],
