@@ -131,3 +131,34 @@ yargs(hideBin(process.argv))
   )
   .command(
     ["upload", "$0"],
+    "upload the dataset after converting it to JSONL from CSV and create a fine tuned model",
+    {},
+    () => {
+      debug("Uploading dataset and fine tuning model");
+      convertCsvToJsonl(CSV_DATASET_PATH, JSONL_DATASET_PATH);
+      uploadDatasetAndFineTuneModel().then((fineTuneId) => {
+        console.log(`Fine tune id: ${fineTuneId}`);
+      });
+    }
+  )
+  .command(
+    "parse <sourceCodeFilePath>",
+    "Parses a JavaScript or TypeScript file or directory into a CSV that can be added to the dataset.csv file",
+    {},
+    (argv) => {
+      if (fs.lstatSync(argv.sourceCodeFilePath).isDirectory()) {
+        debug("Parsing source code in directory: " + argv.sourceCodeFilePath);
+        for (const file of fs.readdirSync(argv.sourceCodeFilePath)) { 
+          debug("Checking whether to parse file: " + file);
+          if (path.extname(file) === ".js" || path.extname(file) === ".ts") {
+            debug("Parsing source code file: " + file);
+            parseSourcecode(path.join(argv.sourceCodeFilePath, file));
+          }
+        }
+      } else {
+        debug("Parsing source code file: " + argv.sourceCodeFilePath);
+        parseSourcecode(argv.sourceCodeFilePath);
+      }
+    }
+  )
+  .parse();
