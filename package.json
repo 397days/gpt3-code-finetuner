@@ -1,4 +1,7 @@
 {
   "name": "finetune-gpt3-for-code",
   "version": "1.0.0",
-  "descri
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test"
