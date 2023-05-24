@@ -6,4 +6,4 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "docker:build": "docker build -t finetune-gpt3-for-code .",
-   
+    "docker:run": "docker run -it --rm --log-driver no
