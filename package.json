@@ -9,3 +9,6 @@
     "docker:run": "docker run -it --rm --log-driver none --env-file .env -v $(pwd)/data:/data finetune-gpt3-for-code"
   },
   "author": "Rudolf Olah <rudolf.olah.to@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "csv-parse": "
