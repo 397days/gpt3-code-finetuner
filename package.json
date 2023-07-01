@@ -11,4 +11,6 @@
   "author": "Rudolf Olah <rudolf.olah.to@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "csv-parse": "
+    "csv-parse": "^5.3.3",
+    "dotenv": "^16.0.3",
+    "openai": "^3.1.0"
