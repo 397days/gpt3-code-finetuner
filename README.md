@@ -4,3 +4,4 @@ This repository includes setup instructions and dependencies required to fine-tu
 
 ## Dependencies:
 - [GPT-3 from OpenAI](https://github.com/openai/openai-node)
+- [yargs for command-line arguments](https://github.com/yargs/y
