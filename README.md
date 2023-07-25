@@ -10,4 +10,10 @@ This repository includes setup instructions and dependencies required to fine-tu
 
 ## Install and Setup
 
-Run the following command 
+Run the following command to install dependencies:
+
+```shell
+npm install
+```
+
+Storage of the ap
