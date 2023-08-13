@@ -20,4 +20,7 @@ Storage of the api key should be in a `.env` file. Control debug logging with th
 
 ```
 OPENAI_API_KEY="YOUR_OPENAI_API_KEY_GOES_HERE"
-D
+DEBUG="true"
+```
+
+### Dataset and TypeScript/JavaScript Code Parser
