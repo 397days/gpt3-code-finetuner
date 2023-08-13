@@ -16,4 +16,8 @@ Run the following command to install dependencies:
 npm install
 ```
 
-Storage of the api key should be in a `.env` file. Control debug logging with the `DEBUG` envi
+Storage of the api key should be in a `.env` file. Control debug logging with the `DEBUG` environment variable.
+
+```
+OPENAI_API_KEY="YOUR_OPENAI_API_KEY_GOES_HERE"
+D
