@@ -16,4 +16,4 @@ Run the following command to install dependencies:
 npm install
 ```
 
-Storage of the ap
+Storage of the api key should be in a `.env` file. Control debug logging with the `DEBUG` envi
