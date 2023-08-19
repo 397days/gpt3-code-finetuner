@@ -24,3 +24,4 @@ DEBUG="true"
 ```
 
 ### Dataset and TypeScript/JavaScript Code Parser
+The dataset is in [`./dataset.csv`](./dataset.csv). Follow the commands be
