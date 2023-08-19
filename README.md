@@ -24,4 +24,8 @@ DEBUG="true"
 ```
 
 ### Dataset and TypeScript/JavaScript Code Parser
-The dataset is in [`./dataset.csv`](./dataset.csv). Follow the commands below to parse TypeScript and JavaScript for additional compl
+The dataset is in [`./dataset.csv`](./dataset.csv). Follow the commands below to parse TypeScript and JavaScript for additional completions on the dataset.
+
+### Running the Code
+
+The code can be run as 
