@@ -28,4 +28,4 @@ The dataset is in [`./dataset.csv`](./dataset.csv). Follow the commands below to
 
 ### Running the Code
 
-The code can be run as 
+The code can be run as detailed below. It includes uploading the dataset, creating the fine-t
