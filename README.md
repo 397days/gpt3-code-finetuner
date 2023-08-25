@@ -32,4 +32,6 @@ The code can be run as detailed below. It includes uploading the dataset, creati
 
 ### Example Session
 
-An example session is shown below for 
+An example session is shown below for better understanding of the interaction.
+
+## Running the code u
