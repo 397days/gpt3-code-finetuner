@@ -30,4 +30,6 @@ The dataset is in [`./dataset.csv`](./dataset.csv). Follow the commands below to
 
 The code can be run as detailed below. It includes uploading the dataset, creating the fine-tuned model and generating model-finetune-id prompt.
 
-### Example Sessio
+### Example Session
+
+An example session is shown below for 
