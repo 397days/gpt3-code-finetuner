@@ -34,4 +34,6 @@ The code can be run as detailed below. It includes uploading the dataset, creati
 
 An example session is shown below for better understanding of the interaction.
 
-## Running the code u
+## Running the code using Docker
+
+Commands to build and run the Docker image are 
