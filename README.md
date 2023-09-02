@@ -36,4 +36,6 @@ An example session is shown below for better understanding of the interaction.
 
 ## Running the code using Docker
 
-Commands to build and run the Docker image are 
+Commands to build and run the Docker image are provided as well.
+
+This project is currently maintained by 397days. Feel 
