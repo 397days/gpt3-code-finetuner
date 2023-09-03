@@ -38,4 +38,4 @@ An example session is shown below for better understanding of the interaction.
 
 Commands to build and run the Docker image are provided as well.
 
-This project is currently maintained by 397days. Feel 
+This project is currently maintained by 397days. Feel free to contribute to the improvement of this project. Thank you!
